@@ -14,7 +14,6 @@ import frc.robot.subsystems.MotorMover;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import edu.wpi.first.wpilibj2.command.button.InternalButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 /**
@@ -28,7 +27,6 @@ public class RobotContainer {
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
   private final Printy printy;
   private final MotorMover mover;
-  private final InternalButton button = new InternalButton();
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
   private final CommandXboxController m_driverController = new CommandXboxController(OperatorConstants.kDriverControllerPort);
@@ -61,7 +59,7 @@ public class RobotContainer {
     m_driverController.b().whileTrue(m_exampleSubsystem.exampleMethodCommand());
     m_driverController.a().whileTrue(printy.exampleMethodCommand());
     m_driverController.x().onTrue(new MoveAMotor(mover));
-    button.onTrue(new MoveAMotor(mover));
+    m_driverController.x().onFalse(new MoveAMotor(mover));
   }
 
   /**

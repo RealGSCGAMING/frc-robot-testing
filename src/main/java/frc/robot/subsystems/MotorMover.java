@@ -6,12 +6,13 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import com.revrobotics.spark.SparkLowLevel.MotorType;
+import com.revrobotics.spark.SparkLowLevel.MotorType;   
 import com.revrobotics.spark.SparkMax;
 
 public class MotorMover extends SubsystemBase {
 
     private final SparkMax wheelmotor;
+    private boolean isMoving = false;
 
     /** Creates a new ExampleSubsystem. */
     public MotorMover() {
@@ -34,22 +35,14 @@ public class MotorMover extends SubsystemBase {
                 });
     }
 
-    public Command moveTest() {
-        // Inline construction of command goes here.
-        // Subsystem::RunOnce implicitly requires `this` subsystem.
-        return runOnce(
-                () -> {
-                    move();
-                    stop();
-                });
-    }
-
     public void move() {
+        isMoving = true;
         wheelmotor.set(0.1);
         System.out.println("The motor might be moving");
     }
 
     public void stop() {
+        isMoving = false;
         wheelmotor.stopMotor();
         System.out.println("The motor might have stopped");
     }
@@ -60,9 +53,9 @@ public class MotorMover extends SubsystemBase {
      *
      * @return value of some boolean subsystem state, such as a digital sensor.
      */
-    public boolean exampleCondition() {
+    public boolean isMoving() {
         // Query some boolean state, such as a digital sensor.
-        return false;
+        return isMoving;
     }
 
     @Override
