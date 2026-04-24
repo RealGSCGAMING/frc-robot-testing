@@ -7,10 +7,12 @@ package frc.robot;
 import frc.robot.Constants.OperatorConstants;
 //import frc.robot.commands.Autos;
 import frc.robot.commands.ExampleCommand;
-import frc.robot.commands.MoveAMotor;
+import frc.robot.commands.MoveSwerve;
+//import frc.robot.commands.MoveAMotor;
 import frc.robot.subsystems.ExampleSubsystem;
-import frc.robot.subsystems.Printy;
-import frc.robot.subsystems.MotorMover;
+import frc.robot.subsystems.SwerveSubsystem;
+//import frc.robot.subsystems.Printy;
+//import frc.robot.subsystems.MotorMover;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -25,16 +27,18 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
-  private final Printy printy;
-  private final MotorMover mover;
+  //private final Printy printy;
+  //private final MotorMover mover;
+  private final SwerveSubsystem swerve;
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
   private final CommandXboxController m_driverController = new CommandXboxController(OperatorConstants.kDriverControllerPort);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
-    printy = new Printy();
-    mover = new MotorMover();
+    //printy = new Printy();
+    //mover = new MotorMover();
+    swerve = new SwerveSubsystem();
     // Configure the trigger bindings
     configureBindings();
     DriverStation.silenceJoystickConnectionWarning(true);
@@ -57,9 +61,11 @@ public class RobotContainer {
     // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
     // cancelling on release.
     m_driverController.b().whileTrue(m_exampleSubsystem.exampleMethodCommand());
-    m_driverController.a().whileTrue(printy.exampleMethodCommand());
-    m_driverController.x().onTrue(new MoveAMotor(mover));
-    m_driverController.x().onFalse(new MoveAMotor(mover));
+    //m_driverController.a().whileTrue(printy.exampleMethodCommand());
+    //m_driverController.x().onTrue(new MoveAMotor(mover));
+    //m_driverController.x().onFalse(new MoveAMotor(mover));
+    m_driverController.x().onTrue(new MoveSwerve(swerve, 0.1));
+    m_driverController.x().onFalse(new MoveSwerve(swerve, 0));
   }
 
   /**
@@ -69,11 +75,11 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An example command will be run in autonomous
-    return printy.autonomousCommand();
+    return swerve.autonomousCommand();
     //return Autos.exampleAuto(m_exampleSubsystem);
   }
 
   public Command getTeleopCommand() {
-    return printy.teleopCommand();
+    return swerve.teleopCommand();
   }
 }
