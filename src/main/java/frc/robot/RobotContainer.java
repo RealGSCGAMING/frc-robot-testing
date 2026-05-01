@@ -14,6 +14,7 @@ import frc.robot.subsystems.SwerveSubsystem;
 //import frc.robot.subsystems.Printy;
 //import frc.robot.subsystems.MotorMover;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -66,6 +67,7 @@ public class RobotContainer {
     //m_driverController.x().onFalse(new MoveAMotor(mover));
     m_driverController.x().onTrue(new MoveSwerve(swerve, 0.1));
     m_driverController.x().onFalse(new MoveSwerve(swerve, 0));
+    m_driverController.axisGreaterThan(XboxController.Axis.kLeftY.value, 0.5).whileTrue(new MoveSwerve(swerve, m_driverController.getHID().getLeftY()));
   }
 
   /**

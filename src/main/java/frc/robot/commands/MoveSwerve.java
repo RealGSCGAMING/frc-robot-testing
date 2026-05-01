@@ -26,6 +26,7 @@ public class MoveSwerve extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    System.out.println("Changing swerve speed to " + speed);
     swerve.changeSpeed(speed);
     end(false);
   } 
